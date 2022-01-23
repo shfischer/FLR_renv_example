@@ -1,0 +1,50 @@
+#' ---
+#' title: "Example script"
+#' output: github_document
+#' ---
+#'   
+## ----setup, include=FALSE------------------------------------------------------------
+knitr::opts_chunk$set(echo = TRUE)
+
+#' 
+#' This is an example script which produces reproducible output when used
+#' in combination with renv
+#' 
+#' Let's load some FLR packages:
+#' 
+## ---- message = FALSE----------------------------------------------------------------
+library(FLCore)
+library(ggplotFL)
+library(FLasher)
+
+#' 
+#' These packages should now be exactly the version specified in the `renv.lock` file:
+#' 
+## ------------------------------------------------------------------------------------
+### check FLasher
+packageDescription("FLasher", fields = "Version", drop = TRUE)
+packageDescription("FLasher", fields = "RemoteSha", drop = TRUE)
+
+#' 
+#' Now we can run a projection with FLasher (example adapted from [FLR tutorial](https://flr-project.org/doc/Forecasting_on_the_Medium_Term_for_advice_using_FLasher.html)):
+#' 
+## ------------------------------------------------------------------------------------
+### load plaice data
+data(ple4)
+### prepare stock for projection
+ple4_mtf <- stf(ple4, nyears = 10)
+### create stock-recruitment model
+ple4_sr <- fmle(as.FLSR(ple4, model = "bevholt"), control = list(trace = 0))
+### set projection target
+ctrl_target <- data.frame(year = 2018:2027, quant = "f", value = 0.2)
+ctrl_f <- fwdControl(ctrl_target)
+### project
+ple4_f <- fwd(ple4_mtf, control = ctrl_f, sr = ple4_sr)
+
+#' 
+#' This should now lead to the same results:
+#' 
+## ------------------------------------------------------------------------------------
+plot(ple4_f) + geom_vline(xintercept = 2017.5)
+ssb(ple4_f)[, ac(2018:2027)]
+
