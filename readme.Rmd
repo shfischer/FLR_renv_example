@@ -358,8 +358,11 @@ Restarting R session...
 * Project 'FLR_renv_example_test' loaded. [renv 0.15.0]
 ```
 
+If R packages already exist in the global R library, they will simply be copied into the local project library.
+
+This completes the R package installation.
 
 ## A reproducible example
 
-After the installation, it is possible to run the [example code](https://github.com/shfischer/FLR_renv_example/blob/main/script_example.Rmd)
+After the installation, it is possible to run the [example code](https://github.com/shfischer/FLR_renv_example/blob/main/script_example.md)
 
