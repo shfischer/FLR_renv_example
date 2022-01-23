@@ -46,11 +46,25 @@ More details about `renv` can be found at
 Once the repository has been cloned, we can install (restore) all R
 packages defined in
 [`renv.lock`](https://github.com/shfischer/FLR_renv_example/blob/main/renv.lock)
-with one command and following the interactive installer:
+with one command and following the interactive installer.
 
 ``` r
 renv::restore()
 ```
+
+Activate the project with “y” when asked:
+
+``` r
+Would you like to activate this project before restore? [Y/n]:
+```
+
+It is also possible to active `renv` manually with:
+
+``` r
+renv::activate()
+```
+
+## A reproducible example
 
 After the installation, it is possible to run the [example
 code](https://github.com/shfischer/FLR_renv_example/blob/main/script_example.Rmd)
